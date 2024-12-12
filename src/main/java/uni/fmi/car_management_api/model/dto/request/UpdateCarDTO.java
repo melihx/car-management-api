@@ -1,40 +1,13 @@
-package uni.fmi.car_management_api.model;
+package uni.fmi.car_management_api.model.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "car")
-public class Car {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class UpdateCarDTO {
     private String make;
     private String model;
     private Integer productionYear;
     private String licensePlate;
-
     private List<Integer> garageIds;
-
-    public Car(Long id, String make, String model, Integer productionYear, String licensePlate, List<Integer> garageIds) {
-        this.id = id;
-        this.make = make;
-        this.model = model;
-        this.productionYear = productionYear;
-        this.licensePlate = licensePlate;
-        this.garageIds = garageIds;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getMake() {
         return make;
