@@ -17,6 +17,8 @@ public class Garage {
     @Column(nullable = false)
     private String city;
 
+    public Garage(){}
+
     public Garage(Long id, String name, String location, Integer capacity, String city) {
         this.id = id;
         this.name = name;

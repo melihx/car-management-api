@@ -10,13 +10,14 @@ import java.util.List;
 @Table(name = "car")
 public class Car {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String make;
     private String model;
     private Integer productionYear;
     private String licensePlate;
 
+    @ElementCollection
     private List<Long> garageIds;
 
     public Car(Long id, String make, String model, Integer productionYear, String licensePlate, List<Long> garageIds) {

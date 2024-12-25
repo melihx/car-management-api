@@ -2,6 +2,7 @@ package uni.fmi.car_management_api.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import uni.fmi.car_management_api.dao.CarRepository;
 import uni.fmi.car_management_api.dao.GarageRepository;
@@ -16,6 +17,7 @@ import uni.fmi.car_management_api.service.CarService;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CarServiceImpl implements CarService {
 
     @Autowired
