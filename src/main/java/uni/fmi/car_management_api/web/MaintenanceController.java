@@ -25,11 +25,11 @@ public class MaintenanceController {
 
     @GetMapping("/")
     public ResponseEntity<List<ResponseMaintenanceDTO>> getMaintenances(
-            @RequestParam(value = "make", required = false) String filterMake,
+            @RequestParam(value = "carId", required = false) Long filterCarId,
             @RequestParam(value = "garageId", required = false) Long filterGarageId,
             @RequestParam(value = "startDate", required = false) String filterStartDate,
             @RequestParam(value = "endDate", required = false) String filterEndDate) {
-        List<ResponseMaintenanceDTO> resp = maintenanceService.getAllMaintenances(Optional.ofNullable(filterMake),
+        List<ResponseMaintenanceDTO> resp = maintenanceService.getAllMaintenances(Optional.ofNullable(filterCarId),
                 Optional.ofNullable(filterGarageId), Optional.ofNullable(filterStartDate),
                 Optional.ofNullable(filterEndDate));
         return new ResponseEntity<>(resp, HttpStatus.OK);

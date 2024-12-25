@@ -19,6 +19,8 @@ public class Maintenance {
     @Column(nullable = false)
     private Long garageId;
 
+    public Maintenance(){}
+
     public Maintenance(Long id, Long carId, String carName, String serviceType, LocalDate scheduledDate, Long garageId, String garageName) {
         this.id = id;
         this.carId = carId;

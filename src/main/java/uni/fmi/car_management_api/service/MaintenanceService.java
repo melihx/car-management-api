@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MaintenanceService {
-    List<ResponseMaintenanceDTO> getAllMaintenances(Optional<String> make, Optional<Long> garageId,
-                                                            Optional<String> startDate, Optional<String> endDate);
+    List<ResponseMaintenanceDTO> getAllMaintenances(Optional<Long> carId, Optional<Long> garageId,
+                                                    Optional<String> startDate, Optional<String> endDate);
 
     ResponseMaintenanceDTO getMaintenance(Long id);
 

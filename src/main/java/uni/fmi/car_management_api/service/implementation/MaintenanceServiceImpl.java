@@ -48,14 +48,14 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public List<ResponseMaintenanceDTO> getAllMaintenances(Optional<String> make, Optional<Long> garageId, Optional<String> startDate, Optional<String> endDate) {
+    public List<ResponseMaintenanceDTO> getAllMaintenances(Optional<Long> carId, Optional<Long> garageId, Optional<String> startDate, Optional<String> endDate) {
         List<Maintenance> response;
 
-        if (make.isEmpty() && garageId.isEmpty() && startDate.isEmpty() && endDate.isEmpty()) {
+        if (carId.isEmpty() && garageId.isEmpty() && startDate.isEmpty() && endDate.isEmpty()) {
             response = maintenanceRepository.findAll();
         } else {
             response = maintenanceRepository.findAllByFilters(
-                    make.orElse(null),
+                    carId.orElse(null),
                     garageId.orElse(null),
                     startDate.orElse(null),
                     endDate.orElse(null)
