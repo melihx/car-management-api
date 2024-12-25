@@ -11,6 +11,12 @@ import java.util.Optional;
 public interface CarRepository extends CrudRepository<Car, Long> {
     Optional<Car> findById(Long id);
 
-    @Query("select c from Car c where c.make= :make and c.garageId= :garageId and c.productionYear>= :startYear and c.productionYear<= :endYear")
-    List<Car> findAllByFilters(@Param("make") String make, @Param("garageId") Long garageId, @Param("startYear") Integer startYear, @Param("endYear") Integer endYear);
+    List<Car> findAll();
+
+    @Query("SELECT c FROM Car c WHERE " + "(:make IS NULL OR c.make = :make) AND "
+            + "(:garageId IS NULL OR c.garageId = :garageId) AND "
+            + "(:startYear IS NULL OR c.productionYear >= :startYear) AND "
+            + "(:endYear IS NULL OR c.productionYear <= :endYear)")
+    List<Car> findAllByFilters(@Param("make") String make, @Param("garageId") Long garageId,
+                               @Param("startYear") Integer startYear, @Param("endYear") Integer endYear);
 }

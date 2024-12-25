@@ -3,24 +3,24 @@ package uni.fmi.car_management_api.model.dto.request;
 import java.time.LocalDate;
 
 public class UpdateMaintenanceDTO {
-    private Integer garageId;
-    private Integer carId;
+    private Long garageId;
+    private Long carId;
     private String serviceType;
     private LocalDate scheduledDate;
 
-    public Integer getGarageId() {
+    public Long getGarageId() {
         return garageId;
     }
 
-    public void setGarageId(Integer garageId) {
+    public void setGarageId(Long garageId) {
         this.garageId = garageId;
     }
 
-    public Integer getCarId() {
+    public Long getCarId() {
         return carId;
     }
 
-    public void setCarId(Integer carId) {
+    public void setCarId(Long carId) {
         this.carId = carId;
     }
 

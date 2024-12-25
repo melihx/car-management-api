@@ -10,23 +10,28 @@ public class Maintenance {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(nullable = false)
     private Long carId;
-    private String carName;
     @Column(nullable = false)
     private String serviceType;
     @Column(nullable = false)
     private LocalDate scheduledDate;
+    @Column(nullable = false)
     private Long garageId;
-    private String garageName;
 
     public Maintenance(Long id, Long carId, String carName, String serviceType, LocalDate scheduledDate, Long garageId, String garageName) {
         this.id = id;
         this.carId = carId;
-        this.carName = carName;
         this.serviceType = serviceType;
         this.scheduledDate = scheduledDate;
         this.garageId = garageId;
-        this.garageName = garageName;
+    }
+
+    public Maintenance(Long carId, String serviceType, LocalDate scheduledDate, Long garageId) {
+        this.carId = carId;
+        this.serviceType = serviceType;
+        this.scheduledDate = scheduledDate;
+        this.garageId = garageId;
     }
 
     public Long getId() {
@@ -43,14 +48,6 @@ public class Maintenance {
 
     public void setCarId(Long carId) {
         this.carId = carId;
-    }
-
-    public String getCarName() {
-        return carName;
-    }
-
-    public void setCarName(String carName) {
-        this.carName = carName;
     }
 
     public String getServiceType() {
@@ -75,13 +72,5 @@ public class Maintenance {
 
     public void setGarageId(Long garageId) {
         this.garageId = garageId;
-    }
-
-    public String getGarageName() {
-        return garageName;
-    }
-
-    public void setGarageName(String garageName) {
-        this.garageName = garageName;
     }
 }

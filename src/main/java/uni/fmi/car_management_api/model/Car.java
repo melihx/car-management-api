@@ -17,10 +17,18 @@ public class Car {
     private Integer productionYear;
     private String licensePlate;
 
-    private List<Integer> garageIds;
+    private List<Long> garageIds;
 
-    public Car(Long id, String make, String model, Integer productionYear, String licensePlate, List<Integer> garageIds) {
+    public Car(Long id, String make, String model, Integer productionYear, String licensePlate, List<Long> garageIds) {
         this.id = id;
+        this.make = make;
+        this.model = model;
+        this.productionYear = productionYear;
+        this.licensePlate = licensePlate;
+        this.garageIds = garageIds;
+    }
+
+    public Car(String make, String model, Integer productionYear, String licensePlate, List<Long> garageIds) {
         this.make = make;
         this.model = model;
         this.productionYear = productionYear;
@@ -68,11 +76,11 @@ public class Car {
         this.licensePlate = licensePlate;
     }
 
-    public List<Integer> getGarageIds() {
+    public List<Long> getGarageIds() {
         return garageIds;
     }
 
-    public void setGarageIds(List<Integer> garageIds) {
+    public void setGarageIds(List<Long> garageIds) {
         this.garageIds = garageIds;
     }
 }

@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface MaintenanceRepository extends CrudRepository<Maintenance,Long> {
     Optional<Maintenance> findById(Long id);
 
+    List<Maintenance> findAll();
+
     @Query("select m from Maintenance m where m.carId=? :carId and m.garageId=? :garageId and m.scheduledDate>= :startDate and m.scheduledDate<= :endDate")
     List<Maintenance> findAllByFilters(@Param("carId") String make, @Param("garageId") Long garageId, @Param("startDate") String startDate, @Param("endDate") String endDate);
 }

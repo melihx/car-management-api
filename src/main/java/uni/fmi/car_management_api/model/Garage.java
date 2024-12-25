@@ -25,6 +25,13 @@ public class Garage {
         this.city = city;
     }
 
+    public Garage(String name, String location, Integer capacity, String city) {
+        this.name = name;
+        this.location = location;
+        this.capacity = capacity;
+        this.city = city;
+    }
+
     public Long getId() {
         return id;
     }

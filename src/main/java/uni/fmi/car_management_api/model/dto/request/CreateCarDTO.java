@@ -7,7 +7,7 @@ public class CreateCarDTO {
     private String model;
     private Integer productionYear;
     private String licensePlate;
-    private List<Integer> garageIds;
+    private List<Long> garageIds;
 
     public String getMake() {
         return make;
@@ -41,11 +41,11 @@ public class CreateCarDTO {
         this.licensePlate = licensePlate;
     }
 
-    public List<Integer> getGarageIds() {
+    public List<Long> getGarageIds() {
         return garageIds;
     }
 
-    public void setGarageIds(List<Integer> garageIds) {
+    public void setGarageIds(List<Long> garageIds) {
         this.garageIds = garageIds;
     }
 }

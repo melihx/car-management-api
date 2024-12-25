@@ -4,17 +4,37 @@ import java.time.LocalDate;
 
 public class ResponseMaintenanceDTO {
     private Long id;
-    private Integer garageId;
-    private Integer carId;
+    private Long carId;
+    private String carName;
     private String serviceType;
     private LocalDate scheduledDate;
+    private Long garageId;
+    private String garageName;
 
-    public ResponseMaintenanceDTO(Long id, Integer garageId, Integer carId, String serviceType, LocalDate scheduledDate) {
+    public ResponseMaintenanceDTO(Long id, Long carId, String carName, String serviceType, LocalDate scheduledDate, Long garageId, String garageName) {
         this.id = id;
-        this.garageId = garageId;
         this.carId = carId;
+        this.carName = carName;
         this.serviceType = serviceType;
         this.scheduledDate = scheduledDate;
+        this.garageId = garageId;
+        this.garageName = garageName;
+    }
+
+    public String getCarName() {
+        return carName;
+    }
+
+    public void setCarName(String carName) {
+        this.carName = carName;
+    }
+
+    public String getGarageName() {
+        return garageName;
+    }
+
+    public void setGarageName(String garageName) {
+        this.garageName = garageName;
     }
 
     public Long getId() {
@@ -25,19 +45,19 @@ public class ResponseMaintenanceDTO {
         this.id = id;
     }
 
-    public Integer getGarageId() {
+    public Long getGarageId() {
         return garageId;
     }
 
-    public void setGarageId(Integer garageId) {
+    public void setGarageId(Long garageId) {
         this.garageId = garageId;
     }
 
-    public Integer getCarId() {
+    public Long getCarId() {
         return carId;
     }
 
-    public void setCarId(Integer carId) {
+    public void setCarId(Long carId) {
         this.carId = carId;
     }
 
