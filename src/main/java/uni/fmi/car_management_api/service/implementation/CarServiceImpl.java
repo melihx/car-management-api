@@ -16,6 +16,7 @@ import uni.fmi.car_management_api.service.CarService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -32,16 +33,14 @@ public class CarServiceImpl implements CarService {
     }
 
     private ResponseCarDTO mapCarToResponse(Car car) {
-        List<Garage> garages = garageRepository.findAllByIdIn(car.getGarageIds());
-
         return new ResponseCarDTO(car.getId(), car.getMake(), car.getModel(), car.getProductionYear(),
-                car.getLicensePlate(), garages.stream().map(this::mapGarageToResponse).toList());
+                car.getLicensePlate(), car.getGarages().stream().map(this::mapGarageToResponse).toList());
     }
 
-    private Car mapCreateRequestToCar(CreateCarDTO request) {
+/*    private Car mapCreateRequestToCar(CreateCarDTO request) {
         return new Car(request.getMake(), request.getModel(), request.getProductionYear(),
                 request.getLicensePlate(), request.getGarageIds());
-    }
+    }*/
 
     @Override
     public List<ResponseCarDTO> getAllCars(Optional<String> make, Optional<Long> garageId, Optional<Integer> startYear,
@@ -73,7 +72,11 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public ResponseCarDTO createNewCar(CreateCarDTO createRequest) {
-        Car newCar = mapCreateRequestToCar(createRequest);
+        garageSearch(createRequest.getGarageIds());
+        List<Garage> garages = garageRepository.findAllByIdIn(createRequest.getGarageIds());
+
+        Car newCar = new Car(createRequest.getMake(), createRequest.getModel(), createRequest.getProductionYear(),
+                createRequest.getLicensePlate(), garages);
         newCar = carRepository.save(newCar);
         return mapCarToResponse(newCar);
     }
@@ -84,12 +87,15 @@ public class CarServiceImpl implements CarService {
         if (!carFound.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car not found!");
         }
+        garageSearch(updateRequest.getGarageIds());
+        List<Garage> garages = garageRepository.findAllByIdIn(updateRequest.getGarageIds());
+
         Car car = carFound.get();
         car.setMake(updateRequest.getMake());
         car.setModel(updateRequest.getModel());
         car.setProductionYear(updateRequest.getProductionYear());
         car.setLicensePlate(updateRequest.getLicensePlate());
-        car.setGarageIds(updateRequest.getGarageIds());
+        car.setGarages(garages);
         car = carRepository.save(car);
         return mapCarToResponse(car);
     }
@@ -103,5 +109,18 @@ public class CarServiceImpl implements CarService {
         Car car = carFound.get();
         carRepository.delete(car);
         return mapCarToResponse(car);
+    }
+
+    private void garageSearch(List<Long> garageIds){
+        List<Long> existingGarageIds = StreamSupport.stream(garageRepository.findAllById(garageIds).spliterator(), false)
+                .map(Garage::getId)
+                .toList();
+        List<Long> missingGarageIds = garageIds.stream()
+                .filter(id -> !existingGarageIds.contains(id))
+                .toList();
+
+        if (!missingGarageIds.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The following garage IDs do not exist: " + missingGarageIds);
+        }
     }
 }

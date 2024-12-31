@@ -13,8 +13,8 @@ public interface CarRepository extends CrudRepository<Car, Long> {
 
     List<Car> findAll();
 
-    @Query("SELECT c FROM Car c WHERE (:make IS NULL OR c.make = :make) AND "
-            + "(:garageId IS NULL OR :garageId MEMBER OF c.garageIds) AND "
+    @Query("SELECT c FROM Car c WHERE (:make IS NULL OR LOWER(c.make) = LOWER(:make)) AND "
+            + "(:garageId IS NULL OR EXISTS (SELECT g FROM c.garages g WHERE g.id = :garageId)) AND "
             + "(:startYear IS NULL OR c.productionYear >= :startYear) AND "
             + "(:endYear IS NULL OR c.productionYear <= :endYear)")
     List<Car> findAllByFilters(@Param("make") String make, @Param("garageId") Long garageId,

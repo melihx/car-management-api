@@ -1,11 +1,13 @@
 package uni.fmi.car_management_api.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uni.fmi.car_management_api.model.dto.request.CreateGarageDTO;
 import uni.fmi.car_management_api.model.dto.request.UpdateGarageDTO;
+import uni.fmi.car_management_api.model.dto.response.GarageDailyAvailabilityReportDTO;
 import uni.fmi.car_management_api.model.dto.response.ResponseGarageDTO;
 import uni.fmi.car_management_api.service.GarageService;
 
@@ -13,14 +15,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/garage")
+@RequestMapping("/garages")
 public class GarageController {
 
     @Autowired
     private GarageService garageService;
 
-
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<ResponseGarageDTO>> getGarages(
             @RequestParam(value = "city", required = false) String filterCity) {
         List<ResponseGarageDTO> resp = garageService.getAllGarages(Optional.ofNullable(filterCity));
@@ -33,7 +34,7 @@ public class GarageController {
         return ResponseEntity.ok(resp);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<ResponseGarageDTO> createGarage(@RequestBody CreateGarageDTO request) {
         ResponseGarageDTO resp = garageService.createNewGarage(request);
         return ResponseEntity.ok(resp);
@@ -52,4 +53,13 @@ public class GarageController {
         return ResponseEntity.ok(resp);
     }
 
+    @GetMapping("/dailyAvailabilityReport")
+    public ResponseEntity<List<GarageDailyAvailabilityReportDTO>> getReport(
+            @RequestParam(value = "garageId") Long garageId,
+            @RequestParam(value = "startDate")@DateTimeFormat(pattern = "yyyy-MM-dd") String filterStartDate,
+            @RequestParam(value = "endDate")@DateTimeFormat(pattern = "yyyy-MM-dd") String filterEndDate) {
+        List<GarageDailyAvailabilityReportDTO> resp =
+                garageService.getDailyAvailabilityReport(garageId, filterStartDate, filterEndDate);
+        return ResponseEntity.ok(resp);
+    }
 }

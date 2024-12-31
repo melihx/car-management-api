@@ -2,6 +2,7 @@ package uni.fmi.car_management_api.service;
 
 import uni.fmi.car_management_api.model.dto.request.CreateMaintenanceDTO;
 import uni.fmi.car_management_api.model.dto.request.UpdateMaintenanceDTO;
+import uni.fmi.car_management_api.model.dto.response.MonthlyRequestsReportDTO;
 import uni.fmi.car_management_api.model.dto.response.ResponseMaintenanceDTO;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface MaintenanceService {
     ResponseMaintenanceDTO updateMaintenance(Long id, UpdateMaintenanceDTO updateRequest);
 
     ResponseMaintenanceDTO deleteMaintenance(Long id);
+
+    List<MonthlyRequestsReportDTO> getMonthlyRequestsReport(Long id, String startMonth, String endMonth);
 }

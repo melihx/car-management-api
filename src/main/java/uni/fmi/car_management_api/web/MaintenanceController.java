@@ -1,15 +1,13 @@
 package uni.fmi.car_management_api.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uni.fmi.car_management_api.model.Maintenance;
-import uni.fmi.car_management_api.model.dto.request.CreateCarDTO;
 import uni.fmi.car_management_api.model.dto.request.CreateMaintenanceDTO;
-import uni.fmi.car_management_api.model.dto.request.UpdateCarDTO;
 import uni.fmi.car_management_api.model.dto.request.UpdateMaintenanceDTO;
-import uni.fmi.car_management_api.model.dto.response.ResponseCarDTO;
+import uni.fmi.car_management_api.model.dto.response.MonthlyRequestsReportDTO;
 import uni.fmi.car_management_api.model.dto.response.ResponseMaintenanceDTO;
 import uni.fmi.car_management_api.service.MaintenanceService;
 
@@ -17,13 +15,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/maintenance")
+@RequestMapping("/maintenance")
 public class MaintenanceController {
 
     @Autowired
     MaintenanceService maintenanceService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<ResponseMaintenanceDTO>> getMaintenances(
             @RequestParam(value = "carId", required = false) Long filterCarId,
             @RequestParam(value = "garageId", required = false) Long filterGarageId,
@@ -41,7 +39,7 @@ public class MaintenanceController {
         return ResponseEntity.ok(resp);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<ResponseMaintenanceDTO> createMaintenance(@RequestBody CreateMaintenanceDTO request) {
         ResponseMaintenanceDTO resp = maintenanceService.createNewMaintenance(request);
         return ResponseEntity.ok(resp);
@@ -57,6 +55,16 @@ public class MaintenanceController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseMaintenanceDTO> deleteMaintenance(@PathVariable("id") Long id) {
         ResponseMaintenanceDTO resp = maintenanceService.deleteMaintenance(id);
+        return ResponseEntity.ok(resp);
+    }
+
+    @GetMapping("/monthlyRequestsReport")
+    public ResponseEntity<List<MonthlyRequestsReportDTO>> getReport(
+            @RequestParam(value = "garageId") Long garageId,
+            @RequestParam(value = "startMonth")@DateTimeFormat(pattern = "yyyy-MM") String filterStartMonth,
+            @RequestParam(value = "endMonth")@DateTimeFormat(pattern = "yyyy-MM") String filterEndMonth) {
+        List<MonthlyRequestsReportDTO> resp =
+                maintenanceService.getMonthlyRequestsReport(garageId, filterStartMonth, filterEndMonth);
         return ResponseEntity.ok(resp);
     }
 }

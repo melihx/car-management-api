@@ -2,6 +2,7 @@ package uni.fmi.car_management_api.service;
 
 import uni.fmi.car_management_api.model.dto.request.CreateGarageDTO;
 import uni.fmi.car_management_api.model.dto.request.UpdateGarageDTO;
+import uni.fmi.car_management_api.model.dto.response.GarageDailyAvailabilityReportDTO;
 import uni.fmi.car_management_api.model.dto.response.ResponseGarageDTO;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface GarageService {
     ResponseGarageDTO updateGarage(Long id, UpdateGarageDTO updateRequest);
 
     ResponseGarageDTO deleteGarage(Long id);
+
+    List<GarageDailyAvailabilityReportDTO> getDailyAvailabilityReport(Long id, String startDate, String endDate);
 }

@@ -1,6 +1,9 @@
 package uni.fmi.car_management_api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -10,30 +13,46 @@ public class Maintenance {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(nullable = false)
-    private Long carId;
+
+    @ManyToOne
+    @JoinColumn(name = "car_id", referencedColumnName = "id", nullable = false)
+    private Car car;
+
     @Column(nullable = false)
     private String serviceType;
+
     @Column(nullable = false)
+    @NotNull(message = "Scheduled date cannot be null")
+    @Future(message = "Scheduled date must be in the future")
     private LocalDate scheduledDate;
-    @Column(nullable = false)
-    private Long garageId;
+
+    @ManyToOne
+    @JoinColumn(name = "garage_id", referencedColumnName = "id", nullable = false)
+    private Garage garage;
 
     public Maintenance(){}
 
-    public Maintenance(Long id, Long carId, String carName, String serviceType, LocalDate scheduledDate, Long garageId, String garageName) {
-        this.id = id;
-        this.carId = carId;
+    public Maintenance(Car car, String serviceType, LocalDate scheduledDate, Garage garage) {
+        this.car = car;
         this.serviceType = serviceType;
         this.scheduledDate = scheduledDate;
-        this.garageId = garageId;
+        this.garage = garage;
     }
 
-    public Maintenance(Long carId, String serviceType, LocalDate scheduledDate, Long garageId) {
-        this.carId = carId;
-        this.serviceType = serviceType;
-        this.scheduledDate = scheduledDate;
-        this.garageId = garageId;
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    public Garage getGarage() {
+        return garage;
+    }
+
+    public void setGarage(Garage garage) {
+        this.garage = garage;
     }
 
     public Long getId() {
@@ -42,14 +61,6 @@ public class Maintenance {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getCarId() {
-        return carId;
-    }
-
-    public void setCarId(Long carId) {
-        this.carId = carId;
     }
 
     public String getServiceType() {
@@ -66,13 +77,5 @@ public class Maintenance {
 
     public void setScheduledDate(LocalDate scheduledDate) {
         this.scheduledDate = scheduledDate;
-    }
-
-    public Long getGarageId() {
-        return garageId;
-    }
-
-    public void setGarageId(Long garageId) {
-        this.garageId = garageId;
     }
 }

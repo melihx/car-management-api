@@ -1,28 +1,26 @@
 package uni.fmi.car_management_api.web;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uni.fmi.car_management_api.model.dto.request.CreateCarDTO;
-import uni.fmi.car_management_api.model.dto.request.CreateGarageDTO;
 import uni.fmi.car_management_api.model.dto.request.UpdateCarDTO;
-import uni.fmi.car_management_api.model.dto.request.UpdateGarageDTO;
 import uni.fmi.car_management_api.model.dto.response.ResponseCarDTO;
-import uni.fmi.car_management_api.model.dto.response.ResponseGarageDTO;
 import uni.fmi.car_management_api.service.CarService;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/car")
+@RequestMapping("/cars")
 public class CarController {
 
     @Autowired
     private CarService carService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<ResponseCarDTO>> getCars(
             @RequestParam(value = "make", required = false) String filterMake,
             @RequestParam(value = "garageId", required = false) Long filterGarageId,
@@ -40,7 +38,7 @@ public class CarController {
         return ResponseEntity.ok(resp);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<ResponseCarDTO> createCar(@RequestBody CreateCarDTO request) {
         ResponseCarDTO resp = carService.createNewCar(request);
         return ResponseEntity.ok(resp);
@@ -53,6 +51,7 @@ public class CarController {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<ResponseCarDTO> deleteCar(@PathVariable("id") Long id) {
         ResponseCarDTO resp = carService.deleteCar(id);
         return ResponseEntity.ok(resp);

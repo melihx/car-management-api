@@ -15,6 +15,6 @@ public interface GarageRepository extends CrudRepository<Garage, Long> {
 
     List<Garage> findAllByIdIn(List<Long> ids);
 
-    @Query(value = "select * from garage where city = :city", nativeQuery = true)
+    @Query(value = "SELECT * FROM garage WHERE LOWER(city) = LOWER(:city)", nativeQuery = true)
     List<Garage> findAllByCity(@Param("city") String city);
 }
